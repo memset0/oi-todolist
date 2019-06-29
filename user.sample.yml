@@ -1,0 +1,8 @@
+- name: memset0
+  account:
+  - site: uoj
+    id: memset0
+- name: sooke
+  account:
+  - site: uoj
+    id: sooke
