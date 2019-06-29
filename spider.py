@@ -3,21 +3,19 @@ import config
 import problem
 from function import *
 
-import re, yaml, requests
+import os
+import re
+import yaml
+import requests
 
 ########## UOJ - begin ##########
 
 def split_uoj_problem_list(text):
-	base_result = re.findall(
-		r'<td>#[0-9]*</td><td class="text-left"><a href="/problem/[0-9]*">[\s\S]*?</a></td>',
-		text
-	)
-	result = {}
-	for problem in base_result:
-		problem_id = 'UOJ #' + problem.split('>#')[1].split('<')[0]
-		problem_name = problem.split('<')[-3].split('>')[-1]
-		result[problem_id] = problem_name
-	return result
+	return {
+		'UOJ #' + it.split('>#')[1].split('<')[0]:
+		it.split('<')[-3].split('>')[-1]
+		for it in re.findall(r'<td>#[0-9]*</td><td class="text-left"><a href="/problem/[0-9]*">[\s\S]*?</a></td>', text)
+	}
 
 def split_uoj_max_page(text):
 	base_result = re.findall(r'/problems\?page=', text)
@@ -56,20 +54,27 @@ def set_ac_list(user):
 		if user.site == 'uoj':
 			user.ac_list = get_uoj_ac_list(user)
 		return user
-
-def get_problem_list():
-	result = {}
+	
+def download_problem_list():
+	result = dict()
 	result.update(get_uoj_problem_list())
 	return result
 
-def get_url_list(name_set):
+def get_problem_list():
+	if os.path.isfile('problem_list.yml'):
+		result = yaml.load(open('problem_list.yml', 'r+', encoding='utf8').read())
+		return result
+	else:
+		result = download_problem_list()
+		open('problem_list.yml', 'w+', encoding='utf8').write(yaml.dump(result))
+		return result
+
+def get_url(name):
 	url_dict = {
-		'UOJ': 'https://uoj.ac/problem/%s'
+		'UOJ': 'https://uoj.ac/problem/%s',
+		'LOJ': 'https://loj.ac/problem/%s'
 	}
-	return {
-		id: url_dict[id.split(' #')[0]] % id.split(' #')[1]
-		for id in name_set.keys()
-	}
+	return url_dict[name.split(' #')[0]] % name.split(' #')[1]
 
 def get(user_set):
 	for i in range(0, len(user_set)):
@@ -78,6 +83,6 @@ def get(user_set):
 
 if __name__ == '__main__':
 	# print(set_ac_list(User('memset0', [Account('uoj', 'only30iq')])).ac_list)
-	print(get()[0].ac_list)
+	# print(get()[0].ac_list)
 	for key, val in get_problem_list().items():
 		print(key, val)

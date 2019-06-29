@@ -1,3 +1,5 @@
+import re
+
 from function import *
 import user
 import config
@@ -5,24 +7,41 @@ import problem
 import spider
 
 from flask import Flask
+from flask import request
 from flask import render_template
 app = Flask(__name__)
 
+config.init()
+from config import config 
+
 user_set = user.load()
-problem_set = problem.load()
 name_set = spider.get_problem_list()
-url_set = spider.get_url_list(name_set)
+
+@app.route('/api/add_problem', methods=['POST'])
+def add_problem():
+    content = request.form['content']
+    for it in content.split('\n'):
+        if 'UOJ' in it or 'uoj' in it:
+            id = re.findall(r'[0-9]+', it)
+            if len(id) == 1:
+                problem.append(Problem('UOJ #' + id[0]))
+        elif 'LOJ' in it or 'loj' in it or 'LibreOJ' in it or 'libreoj' in it:
+            id = re.findall(r'[0-9]+', it)
+            if len(id) == 1:
+                problem.append(Problem('LOJ #' + id[0]))
+    return ''
 
 @app.route('/')
 def index():
-    global user_set, problem_set, name_set, url_set
+    global user_set, problem_set, name_set
     user_set = spider.get(user_set)
+    problem_set = problem.load()
     data = {
         'users': [ it.name for it in user_set ],
         'lists': [
             {
                 'id': problem.id,
-                'url': url_set[problem.id],
+                'url': spider.get_url(problem.id),
                 'name': name_set[problem.id],
                 'status': [
                     (problem.id in user.ac_list)
@@ -35,4 +54,4 @@ def index():
     return render_template('index.html', **data)
 
 if __name__ == '__main__':
-    app.run(port=23333)
+    app.run(port=config['port'])

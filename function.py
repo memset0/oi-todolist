@@ -13,6 +13,7 @@ class Problem:
 		result = { 'id': self.id }
 		if self.tag != []:
 			result['tag'] = self.tag
+		return result
 
 class Account:
 	def __init__(self, site, id, name='', note='', cookie=None, ac_list=set()):
