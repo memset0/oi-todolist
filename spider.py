@@ -43,6 +43,50 @@ def get_uoj_ac_list(user):
 
 ########## UOJ - end ##########
 
+########## LOJ - begin ##########
+
+def split_loj_problem_list(text):
+	id_list = [
+		it[7:-9]
+		for it in re.findall(r'<td><b>[0-9]+</b></td>', text)
+	]
+	name_list = [
+		it.split('>')[-1][:-1]
+		for it in re.findall(r'<a style="vertical-align: middle; " href="/problem/[0-9]*">[\s\S]*?\n', text)
+	]
+	return {
+		'LOJ #' + id_list[i]: name_list[i]
+		for i in range(len(id_list))
+	}
+
+def split_loj_max_page(text):
+	result = 0
+	base_result = re.findall(r'<a class="item" href="/problems\?page=[0-9]*">[0-9]*</a>', text)
+	for it in base_result:
+		page = int(it.split('<')[-2].split('>')[-1])
+		if page > result:
+			result = page
+	return result
+
+def get_loj_problem_list():
+	req = request_get('https://loj.ac/problems')
+	max_page = split_loj_max_page(req.text)
+	result = split_loj_problem_list(req.text)
+	for page in range(2, max_page + 1):
+		req = request_get('https://loj.ac/problems?page=%d' % page)
+		result.update(split_loj_problem_list(req.text))
+	return result
+
+def get_loj_ac_list(user):
+	url = 'https://loj.ac/find_user?nickname={id}'.format(id=user.id)
+	req = request_get(url, cookies=user.cookie)
+	text = req.text
+	base_result = re.findall(r'<a href="/problem/[0-9]*">[0-9]*</a>', text)
+	result = { 'LOJ #' + it.split('>')[1].split('<')[0] for it in base_result }
+	return result
+
+########## LOJ - end ##########
+
 def set_ac_list(user):
 	if type(user) == User:
 		user.ac_list = set()
@@ -53,11 +97,14 @@ def set_ac_list(user):
 	elif type(user) == Account:
 		if user.site == 'uoj':
 			user.ac_list = get_uoj_ac_list(user)
+		elif user.site == 'loj':
+			user.ac_list = get_loj_ac_list(user)
 		return user
 	
 def download_problem_list():
 	result = dict()
 	result.update(get_uoj_problem_list())
+	result.update(get_loj_problem_list())
 	return result
 
 def get_problem_list():
