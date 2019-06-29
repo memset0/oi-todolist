@@ -4,18 +4,15 @@ class Problem:
 	def __init__(self, id, tag=[], note=''):
 		self.id = id
 		self.tag = tag
-		self.note = note
 	def __str__(self):
 		return '[{id}]'.format(
 			id = self.id,
 			tag = self.tag,
-			note = self.note
 		)
 	def to_dict(self):
 		return {
 			'id': self.id,
 			'tag': self.tag,
-			'note': self.note
 		}
 
 class Account:
@@ -23,7 +20,6 @@ class Account:
 		self.site = site
 		self.id = id
 		self.name = name
-		self.note = note
 		self.cookie = cookie
 		self.ac_list = ac_list
 	def __str__(self):
@@ -36,7 +32,6 @@ class User:
 			Account(**it) if type(it) == dict else it
 			for it in account
 		]
-		self.note = note
 		self.ac_list = ac_list
 	def __str__(self):
 		result = '\{\'name\': {name}, \'account\': ['.format(name=self.name)

@@ -14,7 +14,7 @@ def split_uoj_problem_list(text):
 	)
 	result = {}
 	for problem in base_result:
-		problem_id = 'UOJ' + problem.split('>#')[1].split('<')[0]
+		problem_id = 'UOJ #' + problem.split('>#')[1].split('<')[0]
 		problem_name = problem.split('<')[-3].split('>')[-1]
 		result[problem_id] = problem_name
 	return result
@@ -40,17 +40,14 @@ def get_uoj_ac_list(user):
 	req = request_get(url, cookies=user.cookie)
 	text = req.text
 	base_result = re.findall(r'<a href="/problem/[0-9]*" style="display:inline-block; width:4em;">[0-9]*</a>', text)
-	result = { 'UOJ' + it.split('>')[1].split('<')[0] for it in base_result }
+	result = { 'UOJ #' + it.split('>')[1].split('<')[0] for it in base_result }
 	return result
 
 ########## UOJ - end ##########
 
-########## LOJ - begin ##########
-
-########## LOJ - end ##########
-
 def set_ac_list(user):
 	if type(user) == User:
+		user.ac_list = set()
 		for i in range(0, len(user.account)):
 			user.account[i] = set_ac_list(user.account[i])
 			user.ac_list = user.ac_list | user.account[i].ac_list
@@ -65,15 +62,19 @@ def get_problem_list():
 	result.update(get_uoj_problem_list())
 	return result
 
-def get():
-	user_set = user.load()
+def get_url_list(name_set):
+	url_dict = {
+		'UOJ': 'https://uoj.ac/problem/%s'
+	}
+	return {
+		id: url_dict[id.split(' #')[0]] % id.split(' #')[1]
+		for id in name_set.keys()
+	}
+
+def get(user_set):
 	for i in range(0, len(user_set)):
 		user_set[i] = set_ac_list(user_set[i])
 	return user_set
-
-def init():
-	global name_set
-	name_set = get_problem_list()
 
 if __name__ == '__main__':
 	# print(set_ac_list(User('memset0', [Account('uoj', 'only30iq')])).ac_list)

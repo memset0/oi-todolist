@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Hello World!</title>
+
+  <!-- Favicon -->
+  <link href="/static/img/brand/favicon.png" rel="icon" type="image/png">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="/static/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+  <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Argon CSS -->
+  <link type="text/css" href="/static/style.css" rel="stylesheet">
+  <link type="text/css" href="/static/css/argon.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- header -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="/">OI TODO LIST</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-primary" aria-controls="navbar-primary" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-primary">
+      <!-- <ul class="navbar-nav ml-lg-auto">
+        <li class="nav-item"><a class="nav-link" href="#">选项 1</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">选项 2</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="navbar-primary_dropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">设置</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-primary_dropdown_1">
+            <a class="dropdown-item" href="#">设置 1</a>
+            <a class="dropdown-item" href="#">设置 2</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">设置 3</a>
+          </div>
+        </li>
+      </ul> -->
+    </div>
+  </div>
+</nav>
+
+<div class="container m-container">
+  <div class="row">
+    <div class="col-12 col-md-9">
+      <table class="m-table">
+        <thead>
+          <tr>
+            <th><a href="#" role="button" aria-pressed="true" class="btn btn-primary m-display-max">ID</a></th>
+            <th><a href="#" role="button" aria-pressed="true" class="btn btn-primary m-display-max">题目</a></th>
+            {%- for user in users -%}
+            <th><a href="#" role="button" aria-pressed="true" class="btn btn-primary m-display-max">{{ user }}</a></th>
+            {%- endfor -%}
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for list in lists -%}
+          <tr>
+            <th><a href="#" role="button" aria-pressed="true" target="_blank" class="btn btn-secondary m-display-max">{{ list.id }}</a></th>
+            <th><a href="{{ list.url }}" role="button" aria-pressed="true" target="_blank" class="btn btn-secondary m-display-max">{{ list.name }}</a></th>
+            {%- for user in list.status -%}
+            <th>
+              {%- if user -%}
+              <a href="#" role="button" aria-pressed="true" class="btn btn-icon btn-success m-display-max">
+                <span class="btn-inner--icon"><i class="ni ni-check-bold"></i></span>
+              </a>
+              {%- endif -%}
+            </th>
+            {%- endfor -%}
+            <th>
+              <!-- <a href="#" role="button" aria-pressed="true" class="btn btn-icon btn-info"><span class="btn-inner--icon"><i class="ni ni-bold-up"></i></span></a>
+              <a href="#" role="button" aria-pressed="true" class="btn btn-icon btn-info"><span class="btn-inner--icon"><i class="ni ni-bold-down"></i></span></a>
+              <a href="#" role="button" aria-pressed="true" class="btn btn-icon btn-info"><span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span></a> -->
+            </th>
+          </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-12 col-md-3">
+      <form class="shadow m-tools">
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </form>
+      <button class="btn btn-icon btn-3 btn-primary btn-block shadow m-tools" type="button">
+        <span class="btn-inner--icon"><i class="ni ni-send"></i></span>
+        <span class="btn-inner--text">提交</span>
+      </button>
+      <!-- <div class="m-tags">
+        <button type="button" class="btn btn-secondary btn-sm">TAG1</button>
+        <button type="button" class="btn btn-secondary btn-sm">TAG2</button>
+        <button type="button" class="btn btn-secondary btn-sm">TAG3</button>
+        <button type="button" class="btn btn-secondary btn-sm">TAG4</button>
+        <button type="button" class="btn btn-secondary btn-sm">TAG5</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- foot -->
+
+  <!-- Core -->
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/popper/popper.min.js"></script>
+  <script src="/static/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <!-- Optional plugins -->
+  <script src="/static/vendor/headroom/headroom.min.js"></script>
+
+  <!-- Theme JS -->
+  <script src="/static/js/argon.js"></script>
+  </body>
+</html>
