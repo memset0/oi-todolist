@@ -2,7 +2,23 @@
   account:
   - site: uoj
     id: memset0
+  - site: loj
+    id: memset0
+  - site: bzoj
+    id: memset0
 - name: sooke
   account:
   - site: uoj
     id: sooke
+  - site: loj
+    id: sooke
+  - site: bzoj
+    id: sooke
+- name: zx2003
+  account:
+  - site: uoj
+    id: zx2003
+  - site: loj
+    id: zx2003
+  - site: bzoj
+    id: zx2003
