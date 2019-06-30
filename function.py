@@ -57,3 +57,21 @@ def request_post(url, data, cookies=None, headers=dict()):
 			return requests.post(url, data=data, cookies=cookies, headers=headers)
 		except:
 			continue
+
+def e_info(text):
+	print('\033[94m' + text + '\033[0m')
+
+def e_debug(text):
+	print('\033[95m' + text + '\033[0m')
+
+def e_warning(text):
+	print('\033[93m' + text + '\033[0m')
+
+def e_error(text):
+	print('\033[91m' + text + '\033[0m')
+
+if __name__ == '__main__':
+	e_info('this is a info')
+	e_debug('this is a debug')
+	e_warning('this is a warning')
+	e_error('this is a error')
