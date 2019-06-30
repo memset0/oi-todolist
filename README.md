@@ -22,6 +22,7 @@ cp problem.sample.yml problem.yml
 * BZOJ 的权限题爬取
   * 一个方案是做成一个共用的 api 放网上供调用，缺点是成本比较高。
   * 另一个方案是把爬好的题目内容放在 `problem_list.yml` 里，缺点是可能不能及时更新新的权限题（搞得好像 BZOJ 在更新新的权限题似的
+  * 现在的解决方案是你可以在 `config.yml` 中填写权限号的 cookies 来达到爬取权限号题目名称的效果
 * 洛谷的题目名称和做题记录爬取
 * CodeForces 的题目名称和做题记录爬取
 * VJudge 的题目名称和做题记录爬取

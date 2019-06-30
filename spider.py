@@ -3,6 +3,9 @@ import config
 import problem
 from function import *
 
+config.init()
+from config import config
+
 import os
 import re
 import yaml
@@ -103,12 +106,12 @@ def split_bzoj_max_page(text):
 	return result
 
 def get_bzoj_problem_list():
-	req = request_get('https://lydsy.com/JudgeOnline/problemset.php')
+	req = request_get('https://lydsy.com/JudgeOnline/problemset.php', cookies=config['cookies']['bzoj'])
 	req.encoding = 'utf8'
 	max_page = split_bzoj_max_page(req.text)
 	result = split_bzoj_problem_list(req.text)
 	for page in range(2, max_page + 1):
-		req = request_get('https://lydsy.com/JudgeOnline/problemset.php?page=%d' % page)
+		req = request_get('https://lydsy.com/JudgeOnline/problemset.php?page=%d' % page, cookies=config['cookies']['bzoj'])
 		req.encoding = 'utf8'
 		result.update(split_bzoj_problem_list(req.text))
 	return result

@@ -1,1 +1,4 @@
 port: 23333
+cookies: # 此处 cookies 仅用于爬取题目名称
+  bzoj:
+    PHPSESSID: xxx
