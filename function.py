@@ -16,7 +16,7 @@ class Problem:
 		return result
 
 class Account:
-	def __init__(self, site, id, name='', note='', cookie=None, ac_list=set()):
+	def __init__(self, site, id, name='', cookie=None, ac_list=set()):
 		self.site = site
 		self.id = id
 		self.name = name
@@ -24,9 +24,21 @@ class Account:
 		self.ac_list = ac_list
 	def __str__(self):
 		return '{Account: [%s]%s}' % (self.site, self.id)
+	# def to_dict(self):
+	# 	result = {
+	# 		'site': self.site,
+	# 		'id': self.id
+	# 	}
+	# 	if self.name != '':
+	# 		result['name'] = self.name
+	# 	if self.cookie != None:
+	# 		result['cookie'] = self.cookie
+	# 	if self.ac_list != set():
+	# 		result['ac_list'] = self.ac_list
+	# 	return result
 
 class User:
-	def __init__(self, name, account, note='', ac_list=set()):
+	def __init__(self, name, account, ac_list=set()):
 		self.name = name
 		self.account = [
 			Account(**it) if type(it) == dict else it
@@ -41,6 +53,14 @@ class User:
 			result += str(account)
 		result += ']}'
 		return result
+	# def to_dict(self):
+	# 	result = {
+	# 		'name': self.name,
+	# 		'account': [ it.to_dict() for it in self.account ]
+	# 	}
+	# 	if self.ac_list != set():
+	# 		result['ac_list'] = self.ac_list
+	# 	return result
 
 def request_get(url, cookies=None, headers=dict()):
 	headers['user-agent'] = 'Sooke AK IOI'

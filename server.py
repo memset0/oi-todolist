@@ -14,8 +14,14 @@ app = Flask(__name__)
 config.init()
 from config import config 
 
-user_set = user.load()
 name_set = spider.get_problem_list()
+user_set = spider.download_user_set()
+
+@app.route('/api/download_user_set', methods=['POST'])
+def download_user_set():
+    global user_set
+    user_set = spider.download_user_set()
+    return ''
 
 @app.route('/api/download_problem_name', methods=['POST'])
 def download_problem_name():
@@ -43,8 +49,7 @@ def add_problem():
 
 @app.route('/')
 def index():
-    global user_set, problem_set, name_set
-    user_set = spider.get(user_set)
+    global user_set, name_set, problem_set
     problem_set = problem.load()
     data = {
         'users': [ it.name for it in user_set ],

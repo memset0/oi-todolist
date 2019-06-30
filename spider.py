@@ -164,10 +164,25 @@ def get_url(name):
 	key, val = name.split(' #')
 	return url_dict[key] % val
 
-def get(user_set):
+def download_user_set():
+	e_info('download user set')
+	data = dict()
+	user_set = user.load()
+	data['basic'] = user_set
 	for i in range(0, len(user_set)):
 		user_set[i] = set_ac_list(user_set[i])
+	data['crawl'] = user_set
+	open('user.cache.yml', 'w+').write(yaml.dump(data))
 	return user_set
+
+def get_user_set(user_set):
+	data = yaml.load(open('user.cache.yml', 'w+').read())
+	user_set = user.load()
+	if data['basic'] != user_set:
+		user_set = download_problem_list()
+	else:
+		user_set = data['crawl']
+	return uset_set
 
 if __name__ == '__main__':
 	# print(set_ac_list(User('memset0', [Account('uoj', 'only30iq')])).ac_list)

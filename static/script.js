@@ -7,6 +7,14 @@ $("#add-problem-button").click(function(){
 	});
 });
 
+$('#button-download-user-set').click(function(){
+	$.post(
+		'/api/download_user_set'
+	).done(function(){
+		location.reload();
+	});
+})
+
 $('#button-download-problem-name').click(function(){
 	$.post(
 		'/api/download_problem_name'
