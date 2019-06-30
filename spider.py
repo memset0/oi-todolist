@@ -36,8 +36,7 @@ def get_uoj_problem_list():
 def get_uoj_ac_list(user):
 	url = 'http://uoj.ac/user/profile/{id}'.format(id=user.id)
 	req = request_get(url, cookies=user.cookie)
-	text = req.text
-	base_result = re.findall(r'<a href="/problem/[0-9]*" style="display:inline-block; width:4em;">[0-9]*</a>', text)
+	base_result = re.findall(r'<a href="/problem/[0-9]*" style="display:inline-block; width:4em;">[0-9]*</a>', req.text)
 	result = { 'UOJ #' + it.split('>')[1].split('<')[0] for it in base_result }
 	return result
 
@@ -80,13 +79,30 @@ def get_loj_problem_list():
 def get_loj_ac_list(user):
 	url = 'https://loj.ac/find_user?nickname={id}'.format(id=user.id)
 	req = request_get(url, cookies=user.cookie)
-	text = req.text
-	base_result = re.findall(r'<a href="/problem/[0-9]*">[0-9]*</a>', text)
+	base_result = re.findall(r'<a href="/problem/[0-9]*">[0-9]*</a>', req.text)
 	result = { 'LOJ #' + it.split('>')[1].split('<')[0] for it in base_result }
 	return result
 
 ########## LOJ - end ##########
 
+########## BZOJ - begin ##########
+
+def split_bzoj_problem_list(text):
+	return {
+		'BZOJ #' + it[24:28]: it[30:-4]
+		for it in re.findall(r"<a href='problem.php\?id=[0-9]*'>[\S\ss]*?</a>", text)
+	}
+
+def split_bzoj_max_page(text):
+	result = 0
+	base_result = re.findall(r"<a href='problemset.php\?page=[0-9]*'>[0-9]*</a>", text)
+	for it in base_result:
+		page = int(it.split('<')[-2].split('>')[-1])
+		if page > result:
+			result = page
+	return result
+
+def get_bzoj_problem_list():
 	req = request_get('https://lydsy.com/JudgeOnline/problemset.php')
 	req.encoding = 'utf8'
 	max_page = split_bzoj_max_page(req.text)
