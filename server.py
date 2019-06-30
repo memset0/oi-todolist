@@ -35,7 +35,7 @@ def add_problem():
             id = re.findall(r'[0-9]+', it)
             if len(id) == 1:
                 problem.append(Problem('LOJ #' + id[0]))
-        elif 'BZOJ' in it or 'bzoj' in it or lydsy in it:
+        elif 'BZOJ' in it or 'bzoj' in it or 'lydsy' in it:
             id = re.findall(r'[0-9]+', it)
             if len(id) == 1:
                 problem.append(Problem('BZOJ #' + id[0]))
