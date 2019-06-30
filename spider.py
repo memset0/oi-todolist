@@ -87,6 +87,25 @@ def get_loj_ac_list(user):
 
 ########## LOJ - end ##########
 
+	req = request_get('https://lydsy.com/JudgeOnline/problemset.php')
+	req.encoding = 'utf8'
+	max_page = split_bzoj_max_page(req.text)
+	result = split_bzoj_problem_list(req.text)
+	for page in range(2, max_page + 1):
+		req = request_get('https://lydsy.com/JudgeOnline/problemset.php?page=%d' % page)
+		req.encoding = 'utf8'
+		result.update(split_bzoj_problem_list(req.text))
+	return result
+
+def get_bzoj_ac_list(user):
+	url = 'https://lydsy.com/JudgeOnline/userinfo.php?user={id}'.format(id=user.id)
+	req = request_get(url, cookies=user.cookie)
+	base_result = re.findall(r'p([0-9]+)', req.text)
+	result = { 'BZOJ #' + it[2:-1] for it in base_result }
+	return result
+
+########## BZOJ - end ##########
+
 def set_ac_list(user):
 	if type(user) == User:
 		user.ac_list = set()
@@ -105,6 +124,7 @@ def download_problem_list():
 	result = dict()
 	result.update(get_uoj_problem_list())
 	result.update(get_loj_problem_list())
+	result.update(get_bzoj_problem_list())
 	return result
 
 def get_problem_list():
@@ -119,9 +139,11 @@ def get_problem_list():
 def get_url(name):
 	url_dict = {
 		'UOJ': 'https://uoj.ac/problem/%s',
-		'LOJ': 'https://loj.ac/problem/%s'
+		'LOJ': 'https://loj.ac/problem/%s',
+		'BZOJ': 'https://lydsy.com/JudgeOnline/problem.php?id=%s'
 	}
-	return url_dict[name.split(' #')[0]] % name.split(' #')[1]
+	key, val = name.split(' #')
+	return url_dict[key] % val
 
 def get(user_set):
 	for i in range(0, len(user_set)):
@@ -131,5 +153,5 @@ def get(user_set):
 if __name__ == '__main__':
 	# print(set_ac_list(User('memset0', [Account('uoj', 'only30iq')])).ac_list)
 	# print(get()[0].ac_list)
-	for key, val in get_problem_list().items():
+	for key, val in download_problem_list().items():
 		print(key, val)
