@@ -79,16 +79,16 @@ def request_post(url, data, cookies=None, headers=dict()):
 			continue
 
 def e_info(text):
-	print('\033[94m' + text + '\033[0m')
+	print('\033[94m[info] ' + text + '\033[0m')
 
 def e_debug(text):
-	print('\033[95m' + text + '\033[0m')
+	print('\033[95m[debug] ' + text + '\033[0m')
 
 def e_warning(text):
-	print('\033[93m' + text + '\033[0m')
+	print('\033[93m[warning] ' + text + '\033[0m')
 
 def e_error(text):
-	print('\033[91m' + text + '\033[0m')
+	print('\033[91m[error] ' + text + '\033[0m')
 
 if __name__ == '__main__':
 	e_info('this is a info')

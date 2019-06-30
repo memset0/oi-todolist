@@ -26,6 +26,7 @@ def split_uoj_max_page(text):
 	return result
 
 def get_uoj_problem_list():
+	e_info('downloading problem list of bzoj')
 	req = request_get('http://uoj.ac/problems')
 	req.encoding = 'utf8'
 	max_page = split_uoj_max_page(req.text)
@@ -34,6 +35,7 @@ def get_uoj_problem_list():
 		req = request_get('http://uoj.ac/problems?page=%d' % page)
 		req.encoding = 'utf8'
 		result.update(split_uoj_problem_list(req.text))
+	e_info('downloaded problem list of uoj, there are %d pages and %d problems' % (max_page, len(result)))
 	return result
 
 def get_uoj_ac_list(user):
@@ -71,12 +73,14 @@ def split_loj_max_page(text):
 	return result
 
 def get_loj_problem_list():
+	e_info('downloading problem list of loj')
 	req = request_get('https://loj.ac/problems')
 	max_page = split_loj_max_page(req.text)
 	result = split_loj_problem_list(req.text)
 	for page in range(2, max_page + 1):
 		req = request_get('https://loj.ac/problems?page=%d' % page)
 		result.update(split_loj_problem_list(req.text))
+	e_info('downloaded problem list of loj, there are %d pages and %d problems' % (max_page, len(result)))
 	return result
 
 def get_loj_ac_list(user):
@@ -106,6 +110,7 @@ def split_bzoj_max_page(text):
 	return result
 
 def get_bzoj_problem_list():
+	e_info('downloading problem list of bzoj')
 	req = request_get('https://lydsy.com/JudgeOnline/problemset.php', cookies=config['cookies']['bzoj'])
 	req.encoding = 'utf8'
 	max_page = split_bzoj_max_page(req.text)
@@ -114,6 +119,7 @@ def get_bzoj_problem_list():
 		req = request_get('https://lydsy.com/JudgeOnline/problemset.php?page=%d' % page, cookies=config['cookies']['bzoj'])
 		req.encoding = 'utf8'
 		result.update(split_bzoj_problem_list(req.text))
+	e_info('downloaded problem list of bzoj, there are %d pages and %d problems' % (max_page, len(result)))
 	return result
 
 def get_bzoj_ac_list(user):
@@ -140,10 +146,12 @@ def set_ac_list(user):
 		return user
 	
 def download_problem_list():
+	e_info('downloading problem list, it may take a bit time')
 	result = dict()
 	result.update(get_uoj_problem_list())
 	result.update(get_loj_problem_list())
 	result.update(get_bzoj_problem_list())
+	e_info('downloaded problem list')
 	return result
 
 def get_problem_list():
@@ -151,6 +159,7 @@ def get_problem_list():
 		result = yaml.load(open('problem_list.yml', 'r+', encoding='utf8').read())
 		return result
 	else:
+		e_warning('problem list cache has not found, will be downloaded')
 		result = download_problem_list()
 		open('problem_list.yml', 'w+', encoding='utf8').write(yaml.dump(result))
 		return result
@@ -165,7 +174,7 @@ def get_url(name):
 	return url_dict[key] % val
 
 def download_user_set():
-	e_info('download user set')
+	e_info('downloading user set')
 	data = dict()
 	user_set = user.load()
 	data['basic'] = user_set
@@ -173,6 +182,7 @@ def download_user_set():
 		user_set[i] = set_ac_list(user_set[i])
 	data['crawl'] = user_set
 	open('user.cache.yml', 'w+').write(yaml.dump(data))
+	e_info('downloaded user set')
 	return user_set
 
 def get_user_set(user_set):
