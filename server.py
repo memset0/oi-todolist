@@ -17,6 +17,12 @@ from config import config
 user_set = user.load()
 name_set = spider.get_problem_list()
 
+@app.route('/api/download_problem_name', methods=['POST'])
+def download_problem_name():
+    global name_set
+    name_set = spider.download_problem_list()
+    return ''
+
 @app.route('/api/add_problem', methods=['POST'])
 def add_problem():
     content = request.form['content']
