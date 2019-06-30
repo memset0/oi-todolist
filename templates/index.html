@@ -54,7 +54,7 @@
         <tbody>
           {%- for list in lists -%}
           <tr>
-            <th><a href="#" role="button" aria-pressed="true" target="_blank" class="btn btn-secondary m-display-max">{{ list.id }}</a></th>
+            <th><a href="#" role="button" aria-pressed="true" class="btn btn-secondary m-display-max">{{ list.id }}</a></th>
             <th><a href="{{ list.url }}" role="button" aria-pressed="true" target="_blank" class="btn btn-secondary m-display-max">{{ list.name }}</a></th>
             {%- for user in list.status -%}
             <th>
