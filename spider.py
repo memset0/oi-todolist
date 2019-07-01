@@ -185,14 +185,11 @@ def download_user_set():
 	e_info('downloaded user set')
 	return user_set
 
-def get_user_set(user_set):
-	data = yaml.load(open('user.cache.yml', 'w+').read())
-	user_set = user.load()
-	if data['basic'] != user_set:
-		user_set = download_problem_list()
-	else:
-		user_set = data['crawl']
-	return uset_set
+def get_user_set():
+	data = yaml.load(open('user.cache.yml', 'r+').read())
+	if type(data) == type(None) or not 'basic' in data.keys() or data['basic'] != user.load():
+		return download_user_set()
+	return data['crawl']
 
 if __name__ == '__main__':
 	# print(set_ac_list(User('memset0', [Account('uoj', 'only30iq')])).ac_list)

@@ -14,8 +14,8 @@ app = Flask(__name__)
 config.init()
 from config import config 
 
+user_set = spider.get_user_set()
 name_set = spider.get_problem_list()
-user_set = spider.download_user_set()
 
 @app.route('/api/download_user_set', methods=['POST'])
 def download_user_set():
