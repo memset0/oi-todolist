@@ -24,6 +24,12 @@ def append(val):
 	data.append(val)
 	dump(data)
 
+def delete(index):
+	data = load()
+	if index >= 0 and index < len(data):
+		del data[index]
+	dump(data)
+
 def move_up(id):
 	data = load()
 	if id <= 0:

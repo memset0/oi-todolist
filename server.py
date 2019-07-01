@@ -29,6 +29,13 @@ def download_problem_name():
     name_set = spider.download_problem_list()
     return ''
 
+@app.route('/api/delete_problem', methods=['POST'])
+def delete_problem():
+    global problem_set
+    problem.delete(int(request.form['index']))
+    problem_set = problem.load()
+    return ''
+
 @app.route('/api/add_problem', methods=['POST'])
 def add_problem():
     content = request.form['content']
@@ -58,8 +65,9 @@ def index():
                 'id': problem.id,
                 'url': spider.get_url(problem.id),
                 'name': name_set[problem.id],
+                'index': problem_set.index(problem),
                 'status': [
-                    (problem.id in user.ac_list)
+                    problem.id in user.ac_list
                     for user in user_set
                 ]
             }

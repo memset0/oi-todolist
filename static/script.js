@@ -22,3 +22,12 @@ $('#button-download-problem-name').click(function(){
 		location.reload();
 	});
 })
+
+function delete_problem(index) {
+	$.post(
+		'/api/delete_problem',
+		{'index': index}
+	).done(function(){
+		location.reload();
+	});
+}

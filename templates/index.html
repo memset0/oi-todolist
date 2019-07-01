@@ -44,6 +44,7 @@
       <table class="m-table">
         <thead>
           <tr>
+            <th></th>
             <th><a href="#" role="button" aria-pressed="true" class="btn btn-primary m-display-max">ID</a></th>
             <th><a href="#" role="button" aria-pressed="true" class="btn btn-primary m-display-max">题目</a></th>
             {%- for user in users -%}
@@ -54,6 +55,11 @@
         <tbody>
           {%- for list in lists -%}
           <tr>
+            <th>
+              <button class="btn btn-icon btn-danger" type="button" onclick="delete_problem({{ list.index }})">
+                <span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span>
+              </button>
+            </th>
             <th><a href="#" role="button" aria-pressed="true" class="btn btn-secondary m-display-max">{{ list.id }}</a></th>
             <th><a href="{{ list.url }}" role="button" aria-pressed="true" target="_blank" class="btn btn-secondary m-display-max">{{ list.name }}</a></th>
             {%- for user in list.status -%}
