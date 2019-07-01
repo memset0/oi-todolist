@@ -1,6 +1,13 @@
 # todolist
 Argon Design 的 Todo List 工具，刷题的得力伙伴
 
+### Feature
+
+1. 简洁清爽的 UI ，使用现代感十足的 Argon Design 框架
+2. 在浏览器中打开并编辑 Todo List ，而不是像 memset0 之前那个项目一样需要弱智般得手改配置文件
+3. 支持常见的各大 OJ ，现在已有 UOJ / LOJ / BZOJ ，将会马上添加洛谷 / CF / Vjudge
+4. 支持获取其他网友的做题记录并进行比较，也可以用于机房的题目交流
+
 ### Usage
 
 安装 [Python3](https://www.baidu.com/s?wd=安装python3教程) 和 [git](https://www.baidu.com/s?wd=安装git教程) 环境，在空目录下运行命令
