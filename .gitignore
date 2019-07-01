@@ -2,7 +2,6 @@ user.yml
 config.yml
 problem.yml
 problem_list.yml
-user.cache.yml
 
 .DS_Store
 desktop.ini

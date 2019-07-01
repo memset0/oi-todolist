@@ -20,7 +20,7 @@ name_set = spider.get_problem_list()
 @app.route('/api/download_user_set', methods=['POST'])
 def download_user_set():
     global user_set
-    user_set = spider.download_user_set()
+    user_set = spider.get_user_set()
     return ''
 
 @app.route('/api/download_problem_name', methods=['POST'])

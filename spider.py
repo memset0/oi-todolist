@@ -173,23 +173,13 @@ def get_url(name):
 	key, val = name.split(' #')
 	return url_dict[key] % val
 
-def download_user_set():
+def get_user_set():
 	e_info('downloading user set')
-	data = dict()
 	user_set = user.load()
-	data['basic'] = user_set
 	for i in range(0, len(user_set)):
 		user_set[i] = set_ac_list(user_set[i])
-	data['crawl'] = user_set
-	open('user.cache.yml', 'w+').write(yaml.dump(data))
 	e_info('downloaded user set')
 	return user_set
-
-def get_user_set():
-	data = yaml.load(open('user.cache.yml', 'r+').read())
-	if type(data) == type(None) or not 'basic' in data.keys() or data['basic'] != user.load():
-		return download_user_set()
-	return data['crawl']
 
 if __name__ == '__main__':
 	# print(set_ac_list(User('memset0', [Account('uoj', 'only30iq')])).ac_list)
